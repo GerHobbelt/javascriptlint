@@ -9,6 +9,9 @@ BUILDING FROM THE SUBVERSION TRUNK
  Launch the MozillaBuild MSVC 9 batch file. (You may have to run this as an
  Administrator on Windows Vista.) Run the commands in that shell.
 
+* Linux Prerequisites:
+ * `$ sudo apt-get install python-dev`
+
 On all platforms:
  $ python setup.py build
 
@@ -17,5 +20,5 @@ To install on Unix:
 
 WEBSITE
  * Windows: http://pypi.python.org/pypi/Markdown/1.7
- * Linux: $ sudo apt-get install python-markdown
+ * Linux: `$ sudo apt-get install python-markdown`
 

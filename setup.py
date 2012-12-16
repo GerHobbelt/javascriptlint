@@ -6,6 +6,7 @@ import distutils.command.clean
 import os
 import subprocess
 import sys
+import re
 
 class _BuildError(Exception):
     pass
@@ -15,9 +16,21 @@ def _getrevnum():
     p = subprocess.Popen(['svnversion', path], stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = p.communicate()
-    if p.returncode != 0:
-        raise _BuildError, 'Error running svnversion: %s' % stderr
     version = stdout.strip().rstrip('M')
+    if p.returncode != 0 or re.search('Unversioned', version):
+        emsg = ('Error running svnversion: %s' % stderr)
+        p = subprocess.Popen(['git', 'log', '--quiet'], stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout2, stderr2 = p.communicate()
+        if p.returncode != 0:
+            raise _BuildError, 'Error running git log: %s\n%s' % stderr2, emsg
+        else:
+            m = re.search('trunk@([0-9]+)', stdout2)
+            if m:
+                version = m.group(1)
+            else:
+                raise _BuildError, 'Error extracting SVN revision number from git log: %s' % stdout2
+
     return int(version)
 
 def _runmakefiles(distutils_dir, build_opt=1, target=None):
