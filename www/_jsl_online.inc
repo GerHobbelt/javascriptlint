@@ -1,7 +1,7 @@
 <?php
     /* This script assumes the following configuration settings:
      *   +output-format __LINE__,__COL__,__ERROR_NAME__,__ERROR_PREFIX__,__ERROR_MSGENC__
-	 *
+     *
      * Example Code:
      *      require_once("_jsl_online.php");
      *      $engine = new JSLEngine('.priv/jsl', '.priv/jsl.server.conf');
@@ -179,7 +179,7 @@
 
         /* output script */
         $hasWarnedSemicolon = false;
-       
+
         $numlines = $engine->getNumLines();
         $widthOfLineNo = strlen($numlines);
         $lineNoSpacer = str_pad("", $widthOfLineNo, " ") . '  ';
